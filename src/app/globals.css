@@ -58,3 +58,7 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+.light-mode {
+  background: linear-gradient(to right, #5b21b6, #6b21a8, #4338ca);
+}
