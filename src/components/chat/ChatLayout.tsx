@@ -8,6 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import Sidebar from "../Sidebar";
 import { User, USERS } from "@/db/dummy";
+import MessageContainer from "./MessageContainer";
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
@@ -67,7 +68,7 @@ const ChatLayout = ({ defaultLayout = [320, 480] }: ChatLayoutProps) => {
       />
 
       <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
-        <div className="flex justify-center items-center h-full w-full px-10">
+        {/* <div className="flex justify-center items-center h-full w-full px-10">
           <div className="flex flex-col justify-center items-center gap-4">
             <img
               src="https://www.chitchat.gg/_astro/features-03-image-03.DvTmJlRy_1U4Q07.webp"
@@ -78,7 +79,8 @@ const ChatLayout = ({ defaultLayout = [320, 480] }: ChatLayoutProps) => {
               Click on a chat to view the messages
             </p>
           </div>
-        </div>
+        </div> */}
+        <MessageContainer />
       </ResizablePanel>
     </ResizablePanelGroup>
   );

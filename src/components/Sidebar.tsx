@@ -74,7 +74,7 @@ const Sidebar = ({ isCollapsed }: SidebarProps) => {
                 <AvatarFallback>{user.name[0]}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col max-w-28">
-                <span>{user.name}</span>
+                <span className="text-wrap">{user.name}</span>
               </div>
             </Button>
           )
