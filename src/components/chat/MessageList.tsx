@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
 import { messages, USERS } from "@/db/dummy";
 import { cn } from "@/lib/utils";
@@ -16,13 +16,25 @@ const MessageList = () => {
   const [isMessagesLoading, setisMessagesLoading] = useState(false);
   const selectedUser = USERS[0];
 
+  const messageContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const currentUser = {
     id: "3",
     picture: "",
   };
 
   return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
+    <div
+      ref={messageContainerRef}
+      className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
+    >
       <AnimatePresence>
         {!isMessagesLoading &&
           messages?.map((message, index) => (

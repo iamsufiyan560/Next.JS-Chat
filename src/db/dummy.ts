@@ -100,4 +100,40 @@ export const messages = [
     content: "Bye",
     messageType: "text",
   },
+  {
+    id: 11,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
+  {
+    id: 10,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
+  {
+    id: 10,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
+  {
+    id: 10,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
+  {
+    id: 11,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
+  {
+    id: 12,
+    senderId: USERS[1].id,
+    content: "Bye",
+    messageType: "text",
+  },
 ] as Message[];
