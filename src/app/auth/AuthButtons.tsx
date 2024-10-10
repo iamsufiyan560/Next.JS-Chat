@@ -1,20 +1,27 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import {
+  LoginLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import { useState } from "react";
 
 const AuthButtons = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <div className="flex gap-3 flex-1 md:flex-row flex-col relative z-50">
-      <div className="flex-1">
-        <Button className="w-full bg-white text-black hover:bg-slate-200">
+      <RegisterLink className="flex-1" onClick={() => setIsLoading(true)}>
+        <Button className="w-full" variant={"outline"} disabled={isLoading}>
           Sign up
         </Button>
-      </div>
-      <div className="flex-1">
-        <Button className="w-full text-black hover:bg-sky-500 bg-sky-400">
+      </RegisterLink>
+      <LoginLink className="flex-1" onClick={() => setIsLoading(true)}>
+        <Button className="w-full" disabled={isLoading}>
           Login
         </Button>
-      </div>
+      </LoginLink>
     </div>
   );
 };
-
 export default AuthButtons;
