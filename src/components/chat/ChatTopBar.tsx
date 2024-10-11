@@ -1,8 +1,9 @@
 import { USERS } from "@/db/dummy";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Info, X } from "lucide-react";
+import { useSelectedUser } from "@/store/useSelectedUser";
 const ChatTopBar = () => {
-  const selectedUser = USERS[0];
+  const { selectedUser, setSelectedUser } = useSelectedUser();
 
   return (
     <div className="w-full h-20 flex p-4 justify-between items-center border-b  border-gray-400 dark:border-[#1C2938]">
@@ -19,7 +20,10 @@ const ChatTopBar = () => {
 
       <div className="flex gap-2">
         <Info className="text-muted-foreground cursor-pointer hover:text-primary" />
-        <X className="text-muted-foreground cursor-pointer hover:text-primary" />
+        <X
+          onClick={() => setSelectedUser(null)}
+          className="text-muted-foreground cursor-pointer hover:text-primary"
+        />
       </div>
     </div>
   );

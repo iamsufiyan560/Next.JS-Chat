@@ -4,30 +4,26 @@ import { redis } from "@/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export async function checkAuthStatus() {
-  try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
-    if (!user) return { success: false };
+  if (!user) return { success: false };
 
-    const userId = `user:${user.id}`;
-    const existingUser = await redis.hgetall(userId);
+  const userId = `user:${user.id}`;
 
-    if (!existingUser || Object.keys(existingUser).length === 0) {
-      const imgIsNull = user.picture?.includes("gravatar");
-      const image = imgIsNull ? "" : user.picture;
+  const existingUser = await redis.hgetall(userId);
 
-      await redis.hset(userId, {
-        id: user.id,
-        email: user.email,
-        name: `${user.given_name} ${user.family_name}`,
-        image: image,
-      });
-    }
+  if (!existingUser || Object.keys(existingUser).length === 0) {
+    const imgIsNull = user.picture?.includes("gravatar");
+    const image = imgIsNull ? "" : user.picture;
 
-    return { success: true };
-  } catch (error) {
-    console.error("Auth check error:", error);
-    return { success: false };
+    await redis.hset(userId, {
+      id: user.id,
+      email: user.email,
+      name: `${user.given_name} ${user.family_name}`,
+      image: image,
+    });
   }
+
+  return { success: true };
 }

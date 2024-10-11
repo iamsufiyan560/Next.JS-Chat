@@ -1,28 +1,20 @@
 "use client";
 
 import { checkAuthStatus } from "@/actions/auth.actions";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const Page = () => {
+const Page = async () => {
   const router = useRouter();
-
-  const { data, isError, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["authCheck"],
     queryFn: async () => await checkAuthStatus(),
   });
 
-  useEffect(() => {
-    if (!isLoading) {
-      if (data?.success) {
-        router.push("/");
-      } else {
-        router.push("/auth");
-      }
-    }
-  }, [data, isLoading, router]);
+  if (data?.success) router.push("/");
 
   return (
     <div className="mt-20 w-full flex justify-center">
