@@ -30,9 +30,9 @@ async function getUsers(): Promise<User[]> {
 
     const users: User[] = [];
     for (const user of results) {
-      // if (user.id !== currentUser?.id) {
-      users.push(user);
-      // }
+      if (user.id !== currentUser?.id) {
+        users.push(user);
+      }
     }
     return users;
   }

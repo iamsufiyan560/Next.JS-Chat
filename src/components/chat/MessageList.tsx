@@ -1,10 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
-import { messages, USERS } from "@/db/dummy";
+import { USERS } from "@/db/dummy";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { picture } from "framer-motion/client";
+import { useSelectedUser } from "@/store/useSelectedUser";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useQuery } from "@tanstack/react-query";
+import { getMessages } from "@/actions/message.actions";
 
 export interface CurrentUser {
   id: string;
@@ -13,8 +17,19 @@ export interface CurrentUser {
   image: string;
 }
 const MessageList = () => {
-  const [isMessagesLoading, setisMessagesLoading] = useState(false);
-  const selectedUser = USERS[0];
+  const { selectedUser } = useSelectedUser();
+  const { user: currentUser, isLoading: isUserLoading } =
+    useKindeBrowserClient();
+
+  const { data: messages, isLoading: isMessagesLoading } = useQuery({
+    queryKey: ["messages", selectedUser?.id],
+    queryFn: async () => {
+      if (selectedUser && currentUser) {
+        return await getMessages(selectedUser?.id, currentUser?.id);
+      }
+    },
+    enabled: !!selectedUser && !!currentUser && !isUserLoading,
+  });
 
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -24,11 +39,6 @@ const MessageList = () => {
         messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
-
-  const currentUser = {
-    id: "3",
-    picture: "",
-  };
 
   return (
     <div
@@ -81,7 +91,7 @@ const MessageList = () => {
                   <img
                     src={message.content}
                     alt="Message Image"
-                    className="border p-2 rounded h-40 md:h-52 object-cover"
+                    className="border  p-2 rounded h-40 md:h-52 object-cover"
                   />
                 )}
 
